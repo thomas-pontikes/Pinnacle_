@@ -3,8 +3,6 @@ var router = express.Router();
 var config = require('../config/config');
 var Horseman = require('node-horseman');
 
-var student = {};
-var credentials = {};
 
 router.get('/', function(req, res, next){
 res.render('index',{title:"Ticket"})
@@ -13,7 +11,7 @@ res.render('index',{title:"Ticket"})
 
 router.post("*", function(req, res, next){
 
-student = {
+req.student = {
 	hd_employee:req.body.username,
 	option:"",
 	option_int: option_int,
@@ -26,7 +24,7 @@ student = {
 		}
 }
 
-credentials = {
+req.credentials = {
 	username:req.body.username,
 	password:req.body.password
 }
@@ -47,7 +45,7 @@ credentials = {
 		student.option = "email";
 	}
 
-	student.option_int = option_int;
+	req.student.option_int = option_int;
 
 
 next();
@@ -56,24 +54,29 @@ next();
 
 router.post('/doTicket', function(req, res, next) {
 
+var student = req.student;
+var credentials = req.credentials;
+
 	doTicket(function(data){
-		credentials = {}
 		res.json(data);
-	})
+	},student, credentials);
 
 });
 
 router.post('/checkData', function(req, res, next) {
 
+var student = req.student;
+var credentials = req.credentials;
+
 	checkUser(function(data){
-		credentials = {};
 		res.json(data);
-	})
+	},student, credentials);
 
 });
 
 
-function checkUser(callback){
+function checkUser(callback, student, credentials){
+
 var horseman = new Horseman();
 
 student.option="User Query";
@@ -122,7 +125,11 @@ student.User.ticket="User Query: No Ticket Created"
 
 
 
-function doTicket(callback){
+function doTicket(callback, student, credentials){
+	
+var student = req.student;
+var credentials = req.credentials;
+
 var horseman = new Horseman();
 
 	horseman
@@ -179,8 +186,6 @@ var horseman = new Horseman();
 	});
 
 }
-
-
 
 
 module.exports = router;

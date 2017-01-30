@@ -1,2 +1,0 @@
-[General]
-cookies="@Variant(\0\0\0\x7f\0\0\0\x16QList<QNetworkCookie>\0\0\0\0\x1\0\0\0\x3\0\0\0NORA_WWV_RAC_INSTANCE=2; HttpOnly; domain=pinnacle.uri.edu; path=/pls/pinnacle/\0\0\0MLOGIN_USERNAME_COOKIE=tapontikes; domain=pinnacle.uri.edu; path=/pls/pinnacle\0\0\0_PINNV6=ORA_WWV-2E30kOzxQwAUkQxvHvH0/Nsa; HttpOnly; domain=pinnacle.uri.edu; path=/pls/pinnacle/)"

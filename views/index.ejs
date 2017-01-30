@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+<script
+  src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+  <script src="/javascripts/maskedmin.js"></script>    
+  <script src="/javascripts/control.js"></script>
+  </head>
+  <body>
+    <h1>Pinnacle Quick Incident</h1>
+
+    <div class="container">
+
+    <div id="credentials">
+    <form id="credential_form">
+    Username: <input type="text" name="username"> 
+    <br>
+    <br>
+    Password: <input type="password" name="password">
+    </form>
+    </div>
+    </div>
+
+<div class="container">
+<div id="loading"></div>
+<form id="ticketForm">
+  ID Number:   <input type="text" name="id"> 
+  <br>
+  <br>
+  Option:   <select name="option">
+<option value="none" selected="selected">(select one)</option>
+<option value="1835">Reset Mail Password</option>
+<option value="1783">Reset e-Campus Password</option>
+<option value="1942">Wireless Android Setup</option>
+<option value="1943">Wireless Chrome Book Setup</option>
+<option value="1945">Wireless Kindle Setup</option>
+<option value="1946">Wireless Mac Setup</option>
+<option value="1947">Wireless Other Setup</option>
+<option value="1949">Wireless Windows Setup</option>
+<option value="1944">Wireless iOS Setup</option>
+</select>
+  <br>
+ <input type="submit" class="button" id="checkData" value="Lookup User">     
+ <input type="submit" class="button" id="doTicket" value="Submit Ticket">
+
+</form>
+</div>
+<div class="container">
+<pre id="response"></pre>
+</div>
+<div class="container">
+<div id="confirm"></div>
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,48 @@
+body {
+  padding:.5em;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size:150%;
+}
+
+a {
+  color: #00B7FF;
+}
+
+pre{
+  font-size:100%;
+}
+
+h1{
+  font-size:99.9%;
+}
+.container{
+ width:100%;
+  margin-top:2em;
+  margin-bottom:2em;
+
+}
+
+#response{
+ font-size: 2.5vw; 
+  width:100%;
+  height:100%;
+
+
+}
+
+#credentials{
+font-size:55%;
+}
+
+.button {
+	margin-top: 2.5em;
+    background-color: grey; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 75%;
+}

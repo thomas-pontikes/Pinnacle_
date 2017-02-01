@@ -3,10 +3,12 @@ var router = express.Router();
 var config = require('../config/config');
 var Horseman = require('node-horseman');
 
+var auth_error = "Username or Password is incorrect, please try again.";
+var query_error = "A unique user was not found, please try again";
+
 
 router.get('/', function(req, res, next){
 res.render('index',{title:"Ticket"})
-
 });
 
 router.post("*", function(req, res, next){
@@ -34,15 +36,15 @@ req.credentials = {
 	var option_int = parseInt(req.body.option)
 
 	if(option_int >= 1942 && option_int <= 1949){
-		student.option = "wifi";
+		req.student.option = "wifi";
 	}
 
 	if(option_int === 1783){
-		student.option = "ecampus";
+		req.student.option = "ecampus";
 	}
 
 	if(option_int === 1835){
-		student.option = "email";
+		req.student.option = "email";
 	}
 
 	req.student.option_int = option_int;
@@ -77,13 +79,13 @@ var credentials = req.credentials;
 
 function checkUser(callback, student, credentials){
 
-var horseman = new Horseman();
-
 student.option="User Query";
 student.User.ticket="User Query: No Ticket Created"
 
+var horseman = new Horseman();
+	
 	horseman
-	.viewport(3200,1800)
+    .viewport(3200,1800)
 	.open("http://pinnacle.uri.edu:7777/pls/pinnacle/f?p=1102:800:109212746083472::NO::CURRENT_TAB_ID,ROLE_ID:546,23:NO")
 	.type('input[id="P1_USERNAME"]', credentials.username)
 	.type('input[id="P1_PASSWORD"]', credentials.password)
@@ -92,10 +94,9 @@ student.User.ticket="User Query: No Ticket Created"
 	.exists('[data-pinn-message-id="17000018"]')
 	.then(function(isFalse){
 		if(isFalse){
-		callback({"Error":"Username or Password is incorrect, please try again."})
-		return horseman.close();
+		return Promise.reject(callback({"Error":auth_error}));
 		}
-
+		return Promise.resolve();
 	})
 	.type('input[id="P800_USER_DEFINED_ID_Q"]',student.User.id)
 	.click('#B7445903353404766')
@@ -103,15 +104,17 @@ student.User.ticket="User Query: No Ticket Created"
     .count("#R64163813204487568 .pinn-ui-report-body tbody tr")
     .then(function(numLinks){
 	  if(numLinks > 2 || numLinks === 0){
-      callback({"Error":"A unique user was not found, please try again"})
-      return horseman.close();
+      return Promise.reject(callback({"Error":query_error}));
     }
+    return Promise.resolve();
     })
 	.click('td[headers="SUBSCRIBER_ID"] a')
 	.waitForNextPage()	
 	.text('#P803_FORM_DISPLAY_NAME_DISPLAY')
 	.then(function(name){
 		student.User.name = name
+		return Promise.resolve();
+
 	})
 	.text('#P803_ADD_INFO_TEXT_1')
 	.then(function(ecampus){
@@ -126,11 +129,8 @@ student.User.ticket="User Query: No Ticket Created"
 
 
 function doTicket(callback, student, credentials){
-	
-var student = req.student;
-var credentials = req.credentials;
-
-var horseman = new Horseman();
+ 
+ var horseman = new Horseman();
 
 	horseman
     .viewport(3200,1800)
@@ -142,8 +142,7 @@ var horseman = new Horseman();
 	.exists('[data-pinn-message-id="17000018"]')
 	.then(function(isFalse){
 		if(isFalse){
-		callback({"Error":"Username or Password is incorrect, please try again."})
-		return horseman.close();
+		return Promise.reject(callback({"Error":auth_error}));
 		}
 
 	})
@@ -153,8 +152,7 @@ var horseman = new Horseman();
     .count("#R64163813204487568 .pinn-ui-report-body tbody tr")
     .then(function(numLinks){
 	  if(numLinks > 2 || numLinks === 0){
-      callback({"message":"A unique user was not found, please try again"})
-      return horseman.close();
+      return Promise.reject(callback({"Error":query_error}));
     }
     })
 	.click('td[headers="SUBSCRIBER_ID"] a')
